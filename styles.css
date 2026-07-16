@@ -436,6 +436,38 @@ p {
   max-width: 58ch;
 }
 
+.hero-current-build {
+  max-width: 52ch;
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hero-current-build-label {
+  color: var(--color-accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.hero-current-build-text {
+  color: var(--color-text);
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.hero-current-build-detail {
+  color: var(--color-text-soft);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
 .hero-highlights {
   width: 100%;
   display: grid;
@@ -652,12 +684,6 @@ p {
 
 .journey-timeline-card {
   max-width: 560px;
-}
-
-.journey-tools {
-  color: #d1dae3;
-  font-size: 0.93rem;
-  line-height: 1.5;
 }
 
 .detail-card,
@@ -896,6 +922,32 @@ p {
   list-style: none;
 }
 
+.skill-groups {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.skill-group {
+  padding: 1rem;
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.skill-group-title {
+  color: var(--color-text);
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.skill-group-values {
+  margin-top: 0.35rem;
+  color: var(--color-text-soft);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
 .skill-list li,
 .project-detail {
   padding: 1rem;
@@ -1122,10 +1174,6 @@ p {
 
   .hero-panel {
     width: 100%;
-  }
-
-  .journey-tools {
-    font-size: 0.9rem;
   }
 
   .hero-timeline-nav {
