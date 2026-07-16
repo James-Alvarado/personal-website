@@ -1,7 +1,11 @@
 const sidebar = document.querySelector("[data-sidebar]");
+const homeLink = document.querySelector(".sidebar-home-link");
 const navLinks = [...document.querySelectorAll(".nav-link")];
+const sidebarLinks = homeLink ? [homeLink, ...navLinks] : navLinks;
 const revealItems = [...document.querySelectorAll(".reveal")];
 const cardToggles = [...document.querySelectorAll(".card-toggle")];
+const heroTimelineNav = document.querySelector(".hero-timeline-nav");
+const heroTimelinePanel = document.querySelector(".hero-timeline-panel");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 if (sidebar) {
@@ -18,7 +22,7 @@ if (sidebar) {
     }
   });
 
-  navLinks.forEach((link) => {
+  sidebarLinks.forEach((link) => {
     link.addEventListener("click", () => setExpanded(false));
   });
 }
@@ -36,6 +40,103 @@ cardToggles.forEach((button) => {
     }
   });
 });
+
+if (heroTimelineNav && heroTimelinePanel) {
+  const timelineItems = [...document.querySelectorAll("#journey .timeline-item")];
+  const heroTimelineItems = timelineItems
+    .map((item) => {
+      const step = item.querySelector(".timeline-year")?.textContent?.trim();
+      const title = item.querySelector("h3")?.textContent?.trim();
+      const description = item.querySelector("p")?.textContent?.trim();
+
+      if (!step || !title || !description) {
+        return null;
+      }
+
+      return { step, title, description };
+    })
+    .filter(Boolean)
+    .reverse();
+
+  let activeHeroTimelineIndex = 0;
+
+  const renderHeroTimeline = () => {
+    heroTimelineNav.innerHTML = "";
+
+    heroTimelineItems.forEach((item, index) => {
+      const tab = document.createElement("button");
+      tab.type = "button";
+      tab.className = "hero-timeline-step";
+      tab.id = `hero-timeline-tab-${item.step}`;
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-selected", String(index === activeHeroTimelineIndex));
+      tab.setAttribute("aria-controls", `hero-timeline-panel-${item.step}`);
+      tab.setAttribute("tabindex", index === activeHeroTimelineIndex ? "0" : "-1");
+      tab.setAttribute("aria-label", `Step ${item.step}: ${item.title}`);
+      tab.textContent = item.step;
+
+      tab.addEventListener("click", () => {
+        activeHeroTimelineIndex = index;
+        renderHeroTimeline();
+      });
+
+      tab.addEventListener("keydown", (event) => {
+        const keyMap = {
+          ArrowLeft: -1,
+          ArrowUp: -1,
+          ArrowRight: 1,
+          ArrowDown: 1,
+          Home: "start",
+          End: "end",
+        };
+
+        if (!(event.key in keyMap)) {
+          return;
+        }
+
+        event.preventDefault();
+
+        if (keyMap[event.key] === "start") {
+          activeHeroTimelineIndex = 0;
+        } else if (keyMap[event.key] === "end") {
+          activeHeroTimelineIndex = heroTimelineItems.length - 1;
+        } else {
+          activeHeroTimelineIndex =
+            (activeHeroTimelineIndex + keyMap[event.key] + heroTimelineItems.length) %
+            heroTimelineItems.length;
+        }
+
+        renderHeroTimeline();
+
+        const nextTab = heroTimelineNav.querySelector(
+          `[aria-controls="hero-timeline-panel-${heroTimelineItems[activeHeroTimelineIndex].step}"]`
+        );
+
+        nextTab?.focus();
+      });
+
+      heroTimelineNav.appendChild(tab);
+    });
+
+    const activeItem = heroTimelineItems[activeHeroTimelineIndex];
+
+    heroTimelinePanel.id = `hero-timeline-panel-${activeItem.step}`;
+    heroTimelinePanel.setAttribute("role", "tabpanel");
+    heroTimelinePanel.setAttribute("aria-labelledby", `hero-timeline-tab-${activeItem.step}`);
+    heroTimelinePanel.innerHTML = `
+      <div class="hero-timeline-meta">
+        <span class="hero-timeline-number">${activeItem.step}</span>
+        <span class="hero-timeline-label">Journey Step</span>
+      </div>
+      <h3>${activeItem.title}</h3>
+      <p>${activeItem.description}</p>
+    `;
+  };
+
+  if (heroTimelineItems.length > 0) {
+    renderHeroTimeline();
+  }
+}
 
 if (!reducedMotion && "IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver(
@@ -76,8 +177,18 @@ navLinks.forEach((link) => {
   }
 });
 
+if (homeLink) {
+  const url = new URL(homeLink.getAttribute("href"), window.location.href);
+  const linkPage = url.pathname.split("/").pop() || "index.html";
+  const sectionId = url.hash.replace("#", "");
+
+  if (linkPage === currentPage && sectionId) {
+    pageLinkMap.set(sectionId, homeLink);
+  }
+}
+
 const setActiveLink = (sectionId) => {
-  navLinks.forEach((link) => link.removeAttribute("aria-current"));
+  sidebarLinks.forEach((link) => link.removeAttribute("aria-current"));
 
   const activeLink = pageLinkMap.get(sectionId);
   if (activeLink) {

@@ -16,26 +16,15 @@
 
     <aside class="sidebar" data-sidebar>
       <nav class="sidebar-shell" aria-label="Primary">
-        <div class="sidebar-brand">
+        <a class="sidebar-brand sidebar-home-link" href="index.html#home" aria-label="Home">
           <div class="brand-mark" aria-hidden="true">JA</div>
           <div class="brand-copy">
             <p class="brand-name">James Alvarado</p>
             <p class="brand-role">Marketing + Healthcare + AI</p>
           </div>
-        </div>
+        </a>
 
         <ul class="nav-list">
-          <li>
-            <a class="nav-link" href="index.html#home" aria-label="Home">
-              <span class="nav-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="presentation">
-                  <path d="M3 11.5 12 4l9 7.5" />
-                  <path d="M5 10.5V20h14v-9.5" />
-                </svg>
-              </span>
-              <span class="nav-label">Home</span>
-            </a>
-          </li>
           <li>
             <a class="nav-link" href="about.html#about" aria-label="About me">
               <span class="nav-icon" aria-hidden="true">
@@ -111,74 +100,62 @@
       </nav>
     </aside>
 
-    <main id="main-content" class="page-shell">
+    <main id="main-content" class="page-shell home-page-shell">
       <section class="hero reveal visible" id="home">
         <div class="hero-copy">
-          <div class="hero-identity">
-            <img
-              class="hero-portrait"
-              src="assets/images/james-alvarado.jpg"
-              alt="Professional portrait of James Alvarado"
-            />
-            <div class="hero-identity-copy">
-              <p class="eyebrow">Bilingual Esp-Eng professional in transition</p>
-              <h1>James Alvarado</h1>
-              <p class="hero-headline">
-                Marketing Professional, Healthcare Worker &amp; AI and Web Developer
-              </p>
-            </div>
-          </div>
+          <p class="eyebrow">Open to AI Product opportunities &middot; NYC &middot; English &amp; Spanish</p>
+          <p class="hero-name">James Alvarado</p>
+          <p class="hero-role">AI Product Builder</p>
+          <h1 class="hero-title">
+            Turning marketing strategy and healthcare experience into AI-powered products.
+          </h1>
 
           <p class="hero-intro">
-            I combine business strategy, patient-centered care, and technical curiosity to
-            build digital solutions that feel useful, human, and grounded in real-world
-            needs.
+            I use 6+ years in marketing and 4 years in patient-facing healthcare to design practical digital experiences that improve how people access services and information
           </p>
 
           <div class="hero-actions">
-            <a class="button button-primary" href="projects.html#projects">View My Work</a>
-            <a class="button button-secondary" href="index.html#contact">Contact Me</a>
+            <a class="hero-text-link" href="projects.html#projects">Explore My Projects</a>
+            <a class="hero-text-link" href="index.html#contact">Contact Me</a>
           </div>
-
-          <ul class="pill-list" aria-label="Core themes">
-            <li>6+ years in marketing and brand management</li>
-            <li>4 years guiding patients through healthcare systems</li>
-            <li>Currently building AI and web development skills through Pursuit</li>
-          </ul>
         </div>
 
-        <div class="hero-panel">
-          <div class="spotlight-card">
-            <p class="card-label">What I want recruiters to remember</p>
-            <p class="spotlight-quote">
-              James combines marketing, healthcare, and AI to solve real-world problems
-              while continuously learning and adapting to new technologies.
-            </p>
-          </div>
+        <aside class="hero-panel" aria-label="Profile portrait">
+          <img
+            class="hero-portrait"
+            src="assets/images/james-alvarado.jpg"
+            alt="Portrait of James Alvarado"
+          />
+        </aside>
+      </section>
 
-          <div class="detail-grid">
-            <article class="detail-card">
-              <p class="detail-title">Strategy</p>
-              <p class="detail-text">
-                I bring a marketing mindset that focuses on clarity, positioning, and
-                measurable impact.
-              </p>
-            </article>
-            <article class="detail-card">
-              <p class="detail-title">Empathy</p>
-              <p class="detail-text">
-                My healthcare work taught me to listen closely, simplify complexity, and
-                advocate for people.
-              </p>
-            </article>
-            <article class="detail-card">
-              <p class="detail-title">Momentum</p>
-              <p class="detail-text">
-                I am actively learning AI and development so I can build products that solve
-                meaningful problems.
-              </p>
-            </article>
-          </div>
+      <section class="section reveal how-i-build" id="how-i-build">
+        <div class="section-heading section-heading-compact">
+          <h2>How I Build</h2>
+        </div>
+
+        <div class="detail-grid detail-grid--build">
+          <article class="detail-card">
+            <p class="detail-title">Strategy</p>
+            <p class="detail-text">
+              Connects user insight, positioning, and business priorities into clearer
+              product decisions.
+            </p>
+          </article>
+          <article class="detail-card">
+            <p class="detail-title">Empathy</p>
+            <p class="detail-text">
+              Uses patient-facing healthcare experience to simplify complex journeys and
+              design with care.
+            </p>
+          </article>
+          <article class="detail-card">
+            <p class="detail-title">Momentum</p>
+            <p class="detail-text">
+              Prototypes practical AI ideas through Pursuit AI Native with speed and
+              curiosity.
+            </p>
+          </article>
         </div>
       </section>
 
@@ -190,6 +167,17 @@
             My career has not followed a straight line, and that is exactly what gives me a
             broader perspective when I think about people, systems, and technology.
           </p>
+        </div>
+
+        <div class="journey-showcase">
+          <section class="hero-timeline-card journey-timeline-card" aria-labelledby="hero-timeline-title">
+            <p class="card-label hero-timeline-kicker">Career Timeline</p>
+            <h3 class="hero-timeline-title" id="hero-timeline-title">From where I am headed back to where I started</h3>
+            <div class="hero-timeline-nav" role="tablist" aria-label="Career timeline steps"></div>
+            <div class="hero-timeline-panel" tabindex="0"></div>
+          </section>
+
+          <p class="journey-tools">HTML &middot; CSS &middot; JavaScript &middot; Git &middot; GitHub &middot; Cursor &middot; Codex</p>
         </div>
 
         <div class="timeline">
