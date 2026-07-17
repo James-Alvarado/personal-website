@@ -78,7 +78,7 @@ if (heroTimelineNav && heroTimelinePanel) {
     });
   };
 
-  const renderHeroTimeline = () => {
+  const renderHeroTimeline = (shouldScrollTab = false) => {
     heroTimelineNav.innerHTML = "";
     heroTimelineNav.style.setProperty(
       "--timeline-progress",
@@ -159,12 +159,14 @@ if (heroTimelineNav && heroTimelinePanel) {
 
     updateTimelineControls();
 
-    const activeTab = heroTimelineNav.querySelector('[aria-selected="true"]');
-    activeTab?.scrollIntoView({
-      behavior: reducedMotion ? "auto" : "smooth",
-      block: "nearest",
-      inline: "center",
-    });
+    if (shouldScrollTab) {
+      const activeTab = heroTimelineNav.querySelector('[aria-selected="true"]');
+      activeTab?.scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
   };
 
   if (heroTimelineItems.length > 0) {
@@ -183,7 +185,7 @@ if (heroTimelineNav && heroTimelinePanel) {
           activeHeroTimelineIndex += 1;
         }
 
-        renderHeroTimeline();
+        renderHeroTimeline(true);
       });
     });
   } else {
