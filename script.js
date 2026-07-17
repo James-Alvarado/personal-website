@@ -6,6 +6,8 @@ const revealItems = [...document.querySelectorAll(".reveal")];
 const cardToggles = [...document.querySelectorAll(".card-toggle")];
 const heroTimelineNav = document.querySelector(".hero-timeline-nav");
 const heroTimelinePanel = document.querySelector(".hero-timeline-panel");
+const heroTimelineStatus = document.querySelector(".hero-timeline-status");
+const heroTimelineControls = [...document.querySelectorAll("[data-journey-direction]")];
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 if (sidebar) {
@@ -42,7 +44,7 @@ cardToggles.forEach((button) => {
 });
 
 if (heroTimelineNav && heroTimelinePanel) {
-  const timelineItems = [...document.querySelectorAll("#journey .timeline-item")];
+  const timelineItems = [...document.querySelectorAll("#journey .timeline-source .timeline-item")];
   const heroTimelineItems = timelineItems
     .map((item) => {
       const step = item.querySelector(".timeline-year")?.textContent?.trim();
@@ -55,13 +57,33 @@ if (heroTimelineNav && heroTimelinePanel) {
 
       return { step, title, description };
     })
-    .filter(Boolean)
-    .reverse();
+    .filter(Boolean);
 
-  let activeHeroTimelineIndex = 0;
+  let activeHeroTimelineIndex = Math.max(heroTimelineItems.length - 1, 0);
+
+  const updateTimelineControls = () => {
+    if (heroTimelineStatus) {
+      heroTimelineStatus.textContent = `Stage ${activeHeroTimelineIndex + 1} of ${heroTimelineItems.length}`;
+    }
+
+    heroTimelineControls.forEach((control) => {
+      const direction = control.dataset.journeyDirection;
+      if (direction === "prev") {
+        control.disabled = activeHeroTimelineIndex === 0;
+      }
+
+      if (direction === "next") {
+        control.disabled = activeHeroTimelineIndex === heroTimelineItems.length - 1;
+      }
+    });
+  };
 
   const renderHeroTimeline = () => {
     heroTimelineNav.innerHTML = "";
+    heroTimelineNav.style.setProperty(
+      "--timeline-progress",
+      `${((activeHeroTimelineIndex + 1) / heroTimelineItems.length) * 100}%`
+    );
 
     heroTimelineItems.forEach((item, index) => {
       const tab = document.createElement("button");
@@ -73,7 +95,10 @@ if (heroTimelineNav && heroTimelinePanel) {
       tab.setAttribute("aria-controls", `hero-timeline-panel-${item.step}`);
       tab.setAttribute("tabindex", index === activeHeroTimelineIndex ? "0" : "-1");
       tab.setAttribute("aria-label", `Step ${item.step}: ${item.title}`);
-      tab.textContent = item.step;
+      tab.innerHTML = `
+        <span class="hero-timeline-step-number">${item.step}</span>
+        <span class="hero-timeline-step-label">${item.title}</span>
+      `;
 
       tab.addEventListener("click", () => {
         activeHeroTimelineIndex = index;
@@ -126,15 +151,49 @@ if (heroTimelineNav && heroTimelinePanel) {
     heroTimelinePanel.innerHTML = `
       <div class="hero-timeline-meta">
         <span class="hero-timeline-number">${activeItem.step}</span>
-        <span class="hero-timeline-label">Journey Step</span>
+        <span class="hero-timeline-label">Career Stage</span>
       </div>
       <h3>${activeItem.title}</h3>
       <p>${activeItem.description}</p>
     `;
+
+    updateTimelineControls();
+
+    const activeTab = heroTimelineNav.querySelector('[aria-selected="true"]');
+    activeTab?.scrollIntoView({
+      behavior: reducedMotion ? "auto" : "smooth",
+      block: "nearest",
+      inline: "center",
+    });
   };
 
   if (heroTimelineItems.length > 0) {
     renderHeroTimeline();
+
+    heroTimelineControls.forEach((control) => {
+      control.addEventListener("click", () => {
+        if (control.dataset.journeyDirection === "prev" && activeHeroTimelineIndex > 0) {
+          activeHeroTimelineIndex -= 1;
+        }
+
+        if (
+          control.dataset.journeyDirection === "next" &&
+          activeHeroTimelineIndex < heroTimelineItems.length - 1
+        ) {
+          activeHeroTimelineIndex += 1;
+        }
+
+        renderHeroTimeline();
+      });
+    });
+  } else {
+    if (heroTimelineStatus) {
+      heroTimelineStatus.textContent = "Timeline details unavailable.";
+    }
+
+    heroTimelineControls.forEach((control) => {
+      control.disabled = true;
+    });
   }
 }
 

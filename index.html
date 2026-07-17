@@ -182,13 +182,26 @@
         <div class="journey-showcase">
           <section class="hero-timeline-card journey-timeline-card" aria-labelledby="hero-timeline-title">
             <p class="card-label hero-timeline-kicker">Career Timeline</p>
-            <h3 class="hero-timeline-title" id="hero-timeline-title">From where I am headed back to where I started</h3>
+            <h3 class="hero-timeline-title" id="hero-timeline-title">
+              From where I am headed back to where I started
+            </h3>
             <div class="hero-timeline-nav" role="tablist" aria-label="Career timeline steps"></div>
+            <div class="hero-timeline-footer">
+              <p class="hero-timeline-status" aria-live="polite"></p>
+              <div class="hero-timeline-actions" aria-label="Career timeline controls">
+                <button class="hero-timeline-control" type="button" data-journey-direction="prev">
+                  Previous
+                </button>
+                <button class="hero-timeline-control" type="button" data-journey-direction="next">
+                  Next
+                </button>
+              </div>
+            </div>
             <div class="hero-timeline-panel" tabindex="0"></div>
           </section>
         </div>
 
-        <div class="timeline">
+        <div class="timeline timeline-source" hidden aria-hidden="true">
           <article class="timeline-item">
             <span class="timeline-year">01</span>
             <div>
